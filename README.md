@@ -1,4 +1,4 @@
-# your_assistant
+# voice assistant App(not finished yet!!)
 
 A new Flutter project.
 
