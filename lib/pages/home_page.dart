@@ -26,7 +26,6 @@ class _homePageState extends State<homePage> {
   @override
   void initState() {
     super.initState();
-    // Schedule text switching every 5 seconds
     _cycleTexts();
   }
 
@@ -61,29 +60,38 @@ class _homePageState extends State<homePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _appBar(context),
-      body: Column(
-        children: [
-          _assistantImage(),
-          _textBox(),
-          const SizedBox(
-            height: 28,
-          ),
-          Container(
-            padding: const EdgeInsets.only(left: 28),
-            child: const Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                'Below Are Some Features-',
-                style: TextStyle(
-                    color: Pallete.mainFontColor,
-                    fontSize: 24,
-                    fontFamily: 'Cera-Pro',
-                    fontWeight: FontWeight.bold),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            _assistantImage(),
+            _textBox(),
+            const SizedBox(
+              height: 12,
+            ),
+            Container(
+              padding: const EdgeInsets.only(left: 28),
+              child: const Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Below Are Some Features-',
+                  style: TextStyle(
+                      color: Pallete.mainFontColor,
+                      fontSize: 20,
+                      fontFamily: 'Cera-Pro',
+                      fontWeight: FontWeight.bold),
+                ),
               ),
             ),
-          ),
-          _featureBoxes()
-        ],
+            _featureBoxes()
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showSnackbar(context, 'Currently Not Working');
+        },
+        backgroundColor: Pallete.firstSuggestionBoxColor,
+        child: const Icon(Icons.mic),
       ),
     );
   }
@@ -94,15 +102,24 @@ class _homePageState extends State<homePage> {
       children: [
         FeaturesBox(
           color: Pallete.firstSuggestionBoxColor,
+          myImage: 'assets/images/chat-gpt.png',
           headerText: 'ChatGPT',
           descriptionText:
-              'ChatGPT is an AI assistant that helps with creativity, coding, problem-solving, and learning, offering personalized support.',
+              'ChatGPT assists with ideas, coding, and creative solutions efficiently daily.',
         ),
         FeaturesBox(
           color: Pallete.secondSuggestionBoxColor,
+          myImage: 'assets/images/artificial-intelligence.png',
           headerText: 'DAll- E',
           descriptionText:
-              'DALL-E is an AI model that generates images from text prompts, creating unique visuals based on user descriptions.',
+              'DALL-E generates detailed images based on prompts, bringing creative visions to life.',
+        ),
+        FeaturesBox(
+          color: Pallete.thirdSuggestionBoxColor,
+          myImage: 'assets/images/voice-assistant.png',
+          headerText: 'Smart Voice Assistant',
+          descriptionText:
+              'The Smart Voice Assistant listens, processes commands, and simplifies tasks with quick, accurate responses.',
         ),
       ],
     );
@@ -142,7 +159,7 @@ class _homePageState extends State<homePage> {
           child: Container(
             width: 120,
             height: 120,
-            margin: const EdgeInsets.only(top: 20.4),
+            margin: const EdgeInsets.only(top: 12),
             decoration: const BoxDecoration(
               color: Pallete.assistantCircleColor,
               shape: BoxShape.circle,
