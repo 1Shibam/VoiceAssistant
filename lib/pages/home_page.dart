@@ -18,7 +18,7 @@ class _homePageState extends State<homePage> {
   // List of texts to be displayed
   final List<String> texts = [
     'Hellooo User, How Can I help you?',
-    'Welcome User, How was your day..?',
+    'Welcome User, How was your day?',
     'What would you like to know today?',
     'I am here to assist you with anything!',
   ];
@@ -60,83 +60,11 @@ class _homePageState extends State<homePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Pookie',
-          style: TextStyle(
-            fontFamily: 'Cera-Pro',
-            fontSize: 32,
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
-          ),
-        ),
-        centerTitle: true,
-        leading: IconButton(
-          onPressed: () {
-            showSnackbar(context, 'Menu Options');
-          },
-          icon: const Icon(
-            Icons.menu,
-            size: 28,
-          ),
-        ),
-        elevation: 0.0,
-      ),
+      appBar: _appBar(context),
       body: Column(
         children: [
-          // Assistant picture
-          Stack(
-            children: [
-              Center(
-                child: Container(
-                  width: 120,
-                  height: 120,
-                  margin: const EdgeInsets.only(top: 20.4),
-                  decoration: const BoxDecoration(
-                    color: Pallete.assistantCircleColor,
-                    shape: BoxShape.circle,
-                  ),
-                ),
-              ),
-              Container(
-                height: 128,
-                margin: const EdgeInsets.only(top: 12),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Pallete.borderColor),
-                  shape: BoxShape.circle,
-                  image: const DecorationImage(
-                    image: AssetImage(
-                      'assets/images/female-lawyer-upper-body-svgrepo-com.png',
-                    ),
-                  ),
-                ),
-              )
-            ],
-          ),
-          // Chat Message with Typewriter effect
-          Container(
-            height: 100,
-            width: 420,
-            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
-            margin:
-                const EdgeInsets.symmetric(horizontal: 40).copyWith(top: 20),
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.black),
-              shape: BoxShape.rectangle,
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20).copyWith(
-                topLeft: Radius.zero,
-              ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 12.0),
-              child: TypewriterText(
-                key: ValueKey(
-                    currentIndex), // Ensures the widget rebuilds when index changes
-                text: texts[currentIndex],
-              ),
-            ),
-          ),
+          _assistantImage(),
+          _textBox(),
           const SizedBox(
             height: 28,
           ),
@@ -154,26 +82,113 @@ class _homePageState extends State<homePage> {
               ),
             ),
           ),
-
-          // features
-          const Column(
-            children: [
-              FeaturesBox(
-                color: Pallete.firstSuggestionBoxColor,
-                headerText: 'ChatGPT',
-                descriptionText:
-                    'ChatGPT is an AI assistant that helps with creativity, coding, problem-solving, and learning, offering personalized support.',
-              ),
-              FeaturesBox(
-                color: Pallete.secondSuggestionBoxColor,
-                headerText: 'DAll- E',
-                descriptionText:
-                    'DALL-E is an AI model that generates images from text prompts, creating unique visuals based on user descriptions.',
-              ),
-            ],
-          )
+          _featureBoxes()
         ],
       ),
+    );
+  }
+
+// features
+  Column _featureBoxes() {
+    return const Column(
+      children: [
+        FeaturesBox(
+          color: Pallete.firstSuggestionBoxColor,
+          headerText: 'ChatGPT',
+          descriptionText:
+              'ChatGPT is an AI assistant that helps with creativity, coding, problem-solving, and learning, offering personalized support.',
+        ),
+        FeaturesBox(
+          color: Pallete.secondSuggestionBoxColor,
+          headerText: 'DAll- E',
+          descriptionText:
+              'DALL-E is an AI model that generates images from text prompts, creating unique visuals based on user descriptions.',
+        ),
+      ],
+    );
+  }
+
+// Chat Message with Typewriter effect
+  Container _textBox() {
+    return Container(
+      height: 100,
+      width: 420,
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+      margin: const EdgeInsets.symmetric(horizontal: 40).copyWith(top: 20),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.black),
+        shape: BoxShape.rectangle,
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20).copyWith(
+          topLeft: Radius.zero,
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12.0),
+        child: TypewriterText(
+          key: ValueKey(
+              currentIndex), // Ensures the widget rebuilds when index changes
+          text: texts[currentIndex],
+        ),
+      ),
+    );
+  }
+
+  // Assistant picture
+  Stack _assistantImage() {
+    return Stack(
+      children: [
+        Center(
+          child: Container(
+            width: 120,
+            height: 120,
+            margin: const EdgeInsets.only(top: 20.4),
+            decoration: const BoxDecoration(
+              color: Pallete.assistantCircleColor,
+              shape: BoxShape.circle,
+            ),
+          ),
+        ),
+        Container(
+          height: 128,
+          margin: const EdgeInsets.only(top: 12),
+          decoration: BoxDecoration(
+            border: Border.all(color: Pallete.borderColor),
+            shape: BoxShape.circle,
+            image: const DecorationImage(
+              image: AssetImage(
+                'assets/images/female-lawyer-upper-body-svgrepo-com.png',
+              ),
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+//App Bar
+  AppBar _appBar(BuildContext context) {
+    return AppBar(
+      title: const Text(
+        'Pookie',
+        style: TextStyle(
+          fontFamily: 'Cera-Pro',
+          fontSize: 32,
+          fontWeight: FontWeight.bold,
+          color: Colors.black,
+        ),
+      ),
+      centerTitle: true,
+      leading: IconButton(
+        onPressed: () {
+          showSnackbar(context, 'Menu Options');
+        },
+        icon: const Icon(
+          Icons.menu,
+          size: 28,
+        ),
+      ),
+      elevation: 0.0,
     );
   }
 }
