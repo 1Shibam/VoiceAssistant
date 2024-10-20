@@ -1,7 +1,9 @@
-// ignore_for_file: camel_case_types
+// ignore_for_file: camel_case_types, unused_field
 
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:speech_to_text/speech_recognition_result.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 import 'package:your_assistant/features_box.dart';
 import 'package:your_assistant/pages/pallete.dart';
 
@@ -14,6 +16,8 @@ class homePage extends StatefulWidget {
 
 class _homePageState extends State<homePage> {
   int currentIndex = 0;
+  final _speechToText = SpeechToText();
+  String lastwords = '';
 
   // List of texts to be displayed
   final List<String> texts = [
@@ -27,6 +31,34 @@ class _homePageState extends State<homePage> {
   void initState() {
     super.initState();
     _cycleTexts();
+    initSpeechToText();
+  }
+
+  Future<void> initSpeechToText() async {
+    await _speechToText.initialize();
+    setState(() {});
+  }
+
+  Future<void> startListening() async {
+    await _speechToText.listen(onResult: onSpeechResult);
+    setState(() {});
+  }
+
+  Future<void> stopListening() async {
+    await _speechToText.stop();
+    setState(() {});
+  }
+
+  void onSpeechResult(SpeechRecognitionResult result) {
+    setState(() {
+      lastwords = result.recognizedWords;
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _speechToText.stop();
   }
 
   // Function to cycle through texts one by one
@@ -87,8 +119,16 @@ class _homePageState extends State<homePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
+        onPressed: () async {
           showSnackbar(context, 'Currently Not Working');
+          if (await _speechToText.hasPermission &&
+              _speechToText.isNotListening) {
+            await startListening();
+          } else if (_speechToText.isListening) {
+            await stopListening();
+          } else {
+            initSpeechToText();
+          }
         },
         backgroundColor: Pallete.firstSuggestionBoxColor,
         child: const Icon(Icons.mic),
@@ -168,11 +208,10 @@ class _homePageState extends State<homePage> {
         ),
         Container(
           height: 128,
-          margin: const EdgeInsets.only(top: 12),
-          decoration: BoxDecoration(
-            border: Border.all(color: Pallete.borderColor),
+          margin: const EdgeInsets.only(top: 2),
+          decoration: const BoxDecoration(
             shape: BoxShape.circle,
-            image: const DecorationImage(
+            image: DecorationImage(
               image: AssetImage(
                 'assets/images/female-lawyer-upper-body-svgrepo-com.png',
               ),
