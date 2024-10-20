@@ -123,14 +123,18 @@ class _homePageState extends State<homePage> {
           if (await _speechToText.hasPermission &&
               _speechToText.isNotListening) {
             await startListening();
+            showSnackbar(context, 'Listening');
           } else if (_speechToText.isListening) {
             await stopListening();
+            showSnackbar(context, 'Listening Complete!!');
           } else {
             initSpeechToText();
           }
+
+          setState(() {});
         },
         backgroundColor: Pallete.firstSuggestionBoxColor,
-        child: const Icon(Icons.mic),
+        child: Icon(_speechToText.isListening ? Icons.stop : Icons.mic),
         // Change icon based on state
       ),
     );
