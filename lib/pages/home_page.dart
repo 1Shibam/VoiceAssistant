@@ -1,4 +1,4 @@
-// ignore_for_file: camel_case_types, unused_field
+// ignore_for_file: camel_case_types, unused_field, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
@@ -120,7 +120,6 @@ class _homePageState extends State<homePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          showSnackbar(context, 'Currently Not Working');
           if (await _speechToText.hasPermission &&
               _speechToText.isNotListening) {
             await startListening();
@@ -132,6 +131,7 @@ class _homePageState extends State<homePage> {
         },
         backgroundColor: Pallete.firstSuggestionBoxColor,
         child: const Icon(Icons.mic),
+        // Change icon based on state
       ),
     );
   }
