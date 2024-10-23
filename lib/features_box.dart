@@ -33,8 +33,8 @@ class FeaturesBox extends StatelessWidget {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Container(
-                  height: 60,
-                  width: 60,
+                  height: 40,
+                  width: 40,
                   decoration: const BoxDecoration(shape: BoxShape.circle),
                   child: Image.asset(
                     myImage,
@@ -50,7 +50,7 @@ class FeaturesBox extends StatelessWidget {
                 style: const TextStyle(
                     fontFamily: 'Cera-Pro',
                     color: Pallete.blackColor,
-                    fontSize: 20,
+                    fontSize: 18,
                     fontWeight: FontWeight.bold),
               ),
             ),
